@@ -1,0 +1,2 @@
+# MyLibrary
+Virtual library.
