@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lending;
@@ -14,5 +15,15 @@ public static class LendingModule
         //    .AddApiServices(configuration);
 
         return services;
+    }
+
+    public static IApplicationBuilder UseLendingModule(this IApplicationBuilder app)
+    {
+        //app
+        //    .UseApplicationServices()
+        //    .UseInfrastructureServices()
+        //    .UseApiServices();
+
+        return app;
     }
 }
