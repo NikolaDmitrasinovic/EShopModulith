@@ -3,13 +3,12 @@
 namespace Catalog.Books.Models;
 public class Book : Entity<Guid>
 {
-    public string Title { get; set; } = default!;
-    public List<string> Category { get; set; } = [];
-    public string Description { get; set; } = default!;
-    public string ImageFile { get; set; } = default!;
-    public decimal Score { get; set; }
+    public string Title { get; private set; } = default!;
+    public List<string> Category { get; private set; } = [];
+    public string Description { get; private set; } = default!;
+    public string ImageFile { get; private set; } = default!;
+    public decimal Score { get; private set; }
 
-    // Create method fir initializin Book
     public static Book Create(Guid id, string title, List<string> category, string description, string imageFile, decimal score)
     {
         ArgumentException.ThrowIfNullOrEmpty(title);
