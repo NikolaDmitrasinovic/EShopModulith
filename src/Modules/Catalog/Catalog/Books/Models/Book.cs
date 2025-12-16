@@ -8,4 +8,8 @@ public class Book : Entity<Guid>
     public string Description { get; set; } = default!;
     public string ImageFile { get; set; } = default!;
     public decimal Score { get; set; }
+
+    // Create method fir initializin Book
+    // Property setters private
+    // Update method
 }
