@@ -9,7 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Basket\Basket\Basket.csproj" />
     <ProjectReference Include="..\..\Modules\Catalog\Catalog\Catalog.csproj" />
-    <ProjectReference Include="..\..\Modules\Lending\Lending\Lending.csproj" />
+    <ProjectReference Include="..\..\Modules\Lending\Lending\Ordering.csproj" />
   </ItemGroup>
 
 </Project>
