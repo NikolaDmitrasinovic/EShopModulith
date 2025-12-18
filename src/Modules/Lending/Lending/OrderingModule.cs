@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Lending;
 
-public static class LendingModule
+public static class OrderingModule
 {
     public static IServiceCollection AddLendingModule(this IServiceCollection services,
         IConfiguration configuration)

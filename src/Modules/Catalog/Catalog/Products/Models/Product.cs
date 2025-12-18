@@ -1,24 +1,24 @@
 ﻿namespace Catalog.Books.Models;
-public class Book : Entity<Guid>
+public class Product : Entity<Guid>
 {
-    public string Title { get; private set; } = default!;
+    public string Name { get; private set; } = default!;
     public List<string> Category { get; private set; } = [];
     public string Description { get; private set; } = default!;
     public string ImageFile { get; private set; } = default!;
-    public decimal Score { get; private set; }
+    public decimal Price { get; private set; }
 
-    public static Book Create(Guid id, string title, List<string> category, string description, string imageFile, decimal score)
+    public static Product Create(Guid id, string title, List<string> category, string description, string imageFile, decimal score)
     {
         ArgumentException.ThrowIfNullOrEmpty(title);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(score);
 
-        var book = new Book
+        var book = new Product
         {
             Id = id,
-            Title = title,
+            Name = title,
             Category = category,
             ImageFile = imageFile,
-            Score = score
+            Price = score
         };
 
         return book;
@@ -29,11 +29,11 @@ public class Book : Entity<Guid>
         ArgumentException.ThrowIfNullOrEmpty(title);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(score);
 
-        Title = title;
+        Name = title;
         Category = category;
         Description = description;
         ImageFile = imageFile;
-        Score = score;
+        Price = score;
 
         // TODO: if score changed, rase domain event
     }
