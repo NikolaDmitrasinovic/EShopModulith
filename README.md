@@ -1,2 +1,1 @@
-# MyLibrary
-Virtual library.
+# EShop
