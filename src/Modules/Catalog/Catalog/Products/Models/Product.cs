@@ -1,6 +1,6 @@
 ﻿using Catalog.Products.Events;
 
-namespace Catalog.Books.Models;
+namespace Catalog.Products.Models;
 public class Product : Aggregate<Guid>
 {
     public string Name { get; private set; } = default!;
