@@ -19,6 +19,7 @@ public class Product : Aggregate<Guid>
             Id = id,
             Name = title,
             Category = category,
+            Description = description,
             ImageFile = imageFile,
             Price = score
         };
