@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Data.Interceptors;
 
 namespace Catalog;
 
@@ -15,16 +17,52 @@ public static class CatalogModule
         //    .AddInfrastructureServices(configuration)
         //    .AddApiServices(configuration);
 
+        // Api Endpoint services
+
+        // Application Use Case services
+        services.AddMediatR(config =>
+        {
+            config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+        });
+
+        // Data - Infrastructure services
+        var connectionString = configuration.GetConnectionString("Database");
+
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+
+        services.AddDbContext<CatalogDbContext>((sp, options) =>
+        {
+            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+            options.UseNpgsql(connectionString);
+        });
+
+        services.AddScoped<IDataSeeder, CatalogDataSeeder>();
+
         return services;
     }
 
     public static IApplicationBuilder UseCatalogModule(this IApplicationBuilder app)
     {
-        //app
-        //    .UseApplicationServices()
-        //    .UseInfrastructureServices()
-        //    .UseApiServices();
+        // Configure the HTTP request pipeline.
+
+        // 1. Use Api Endpoint services
+
+        // 2. Use Application Use Case services
+
+        // 3. Use Data - Infrastructure services
+        app.UseMigration<CatalogDbContext>();
+        //InitialiseDatabaseAsync(app).GetAwaiter().GetResult();
 
         return app;
     }
+
+    //private static async Task InitialiseDatabaseAsync(IApplicationBuilder app)
+    //{
+    //    using var scope = app.ApplicationServices.CreateScope();
+
+    //    var context = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
+
+    //    await context.Database.MigrateAsync();
+    //}
 }
