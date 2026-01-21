@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Catalog.Products.Events;
 
 namespace Catalog.Products.EventHandlers;
-internal class ProductCreatedEventHandler
+public class ProductCreatedEventHandler(ILogger<ProductCreatedEvent> logger)
+    : INotificationHandler<ProductCreatedEvent>
 {
+    public Task Handle(ProductCreatedEvent notification, CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Domain Event handler: {DomainEvent}", notification.GetType().Name);
+        return Task.CompletedTask;
+    }
 }
