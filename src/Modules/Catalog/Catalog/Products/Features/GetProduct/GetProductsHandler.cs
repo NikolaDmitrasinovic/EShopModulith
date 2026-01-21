@@ -1,6 +1,4 @@
-﻿
-
-namespace Catalog.Products.Features.GetProduct;
+﻿namespace Catalog.Products.Features.GetProduct;
 
 public record GetPRoductQuery()
     : IQuery<GetProductResult>;
@@ -20,17 +18,8 @@ internal class GetProductsHandler(CatalogDbContext dbContext)
             .OrderBy(p=>p.Name)
             .ToListAsync(cancellationToken);
 
-        var productDtos = ProjectToProductDto(products);
+        var productDtos = products.Adapt<List<ProductDto>>();
 
         return new GetProductResult(productDtos);
-    }
-
-    private List<ProductDto> ProjectToProductDto(List<Product> products)
-    {
-        foreach (var product in products)
-        {
-
-        }
-        return [];
     }
 }
