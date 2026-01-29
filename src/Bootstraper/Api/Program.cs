@@ -1,15 +1,15 @@
-using Carter;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddCarter(configurator: config =>
-{
-    var catalogModules = typeof(CatalogModule).Assembly.GetTypes()
-    .Where(t => t.IsAssignableTo(typeof(CatalogModule))).ToArray();
+//builder.Services.AddCarter(configurator: config =>
+//{
+//    var catalogModules = typeof(CatalogModule).Assembly.GetTypes()
+//    .Where(t => t.IsAssignableTo(typeof(CatalogModule))).ToArray();
 
-    config.WithModules(catalogModules);
-});
+//    config.WithModules(catalogModules);
+//});
+builder.Services
+    .AddCarterWithAsseblies(typeof(CatalogModule).Assembly);
 
 builder.Services
     .AddCatalogModule(builder.Configuration)
