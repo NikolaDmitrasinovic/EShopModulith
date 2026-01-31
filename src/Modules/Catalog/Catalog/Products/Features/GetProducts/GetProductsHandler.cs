@@ -1,14 +1,14 @@
-﻿namespace Catalog.Products.Features.GetProduct;
+﻿namespace Catalog.Products.Features.GetProducts;
 
-public record GetPRoductQuery()
+public record GetProductsQuery()
     : IQuery<GetProductResult>;
 
 public record GetProductResult(IEnumerable<ProductDto> Products);
 
 internal class GetProductsHandler(CatalogDbContext dbContext)
-    : IQueryHandler<GetPRoductQuery, GetProductResult>
+    : IQueryHandler<GetProductsQuery, GetProductResult>
 {
-    public async Task<GetProductResult> Handle(GetPRoductQuery query, CancellationToken cancellationToken)
+    public async Task<GetProductResult> Handle(GetProductsQuery query, CancellationToken cancellationToken)
     {
         // get products
         // return result
