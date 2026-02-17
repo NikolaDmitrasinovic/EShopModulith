@@ -1,5 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseSerilog((context, config) =>
+    config.ReadFrom.Configuration(context.Configuration));
+
 // Add services to the container.
 builder.Services
     .AddCarterWithAsseblies(typeof(CatalogModule).Assembly);
@@ -15,6 +18,8 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.MapCarter();
+app.UseSerilogRequestLogging();
+app.UseExceptionHandler(option => { });
 
 app
     .UseCatalogModule()
@@ -44,7 +49,5 @@ app
 //        await context.Response.WriteAsJsonAsync(problemDetails);
 //    });
 //});
-
-app.UseExceptionHandler(option => { });
 
 app.Run();
