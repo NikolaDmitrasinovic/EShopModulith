@@ -17,8 +17,7 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
 }
 
 internal class CreateProductHandler
-    (CatalogDbContext dbContext,
-    ILogger<CreateProductHandler> logger)
+    (CatalogDbContext dbContext)
     : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
@@ -27,10 +26,6 @@ internal class CreateProductHandler
         // save to database
         // return result
 
-        // logging
-        logger.LogInformation("CreateProductCommandHandler.Handle called with {@command}", command);
-
-        // actual logic
         var product = CreateNewProduct(command.Product);
 
         dbContext.Products.Add(product);
