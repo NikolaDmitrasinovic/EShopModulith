@@ -1,6 +1,4 @@
-﻿
-
-namespace Catalog.Products.Features.UpdateProduct;
+﻿namespace Catalog.Products.Features.UpdateProduct;
 
 public record UpdateProductCommand(ProductDto Product)
     : ICommand<UpdateProductResult>;
@@ -19,9 +17,9 @@ internal class UpdateProdcutHandler(CatalogDbContext dbContext)
         var product = await dbContext.Products
             .FindAsync([command.Product.Id], cancellationToken);
 
-        if (product == null)
+        if (product is null)
         {
-            throw new Exception($"Product not found: {command.Product.Id}");
+            throw new ProductNotFoundExcepion(command.Product.Id);
         }
 
         UpdateProdcutWihtNewVaues(product, command.Product);
