@@ -1,4 +1,5 @@
 ﻿using Shared.DDD;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basket.Basket.Models;
 
@@ -12,7 +13,8 @@ public class ShoppingCartItem : Entity<Guid>
     public decimal Price { get; private set; } = default;
     public string ProductName { get; private set; } = default!;
 
-    public ShoppingCartItem(Guid shoppingCardId, Guid productId, int quantity, string color, decimal price, string productName)
+    [SetsRequiredMembers]
+    internal ShoppingCartItem(Guid shoppingCardId, Guid productId, int quantity, string color, decimal price, string productName)
     {
         ShoppingCardId = shoppingCardId;
         ProductId = productId;
