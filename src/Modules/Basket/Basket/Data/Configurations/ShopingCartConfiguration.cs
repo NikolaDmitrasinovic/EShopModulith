@@ -13,5 +13,9 @@ public class ShopingCartConfiguration : IEntityTypeConfiguration<ShoppingCart>
         builder.Property(e => e.UserName)
             .IsRequired()
             .HasMaxLength(100);
+
+        builder.HasMany(s => s.Items)
+            .WithOne()
+            .HasForeignKey(si => si.ShoppingCardId);
     }
 }
