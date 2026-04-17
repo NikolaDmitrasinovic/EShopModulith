@@ -1,8 +1,4 @@
-﻿using Basket.Basket.Dtos;
-using FluentValidation;
-using Shared.CQRS;
-
-namespace Basket.Basket.Features.CreateBasket;
+﻿namespace Basket.Basket.Features.CreateBasket;
 
 public record CreateBasketCommand(ShoppingCartDto ShoppingCart) : ICommand<CreateBasketResult>;
 
@@ -16,11 +12,35 @@ public class CreateBasketCommandValidator : AbstractValidator<CreateBasketComman
     }
 }
 
-internal class CreateBasketHandler
+internal class CreateBasketHandler(BasketDbContext dbContext)
         : ICommandHandler<CreateBasketCommand, CreateBasketResult>
 {
-    public Task<CreateBasketResult> Handle(CreateBasketCommand command, CancellationToken cancellationToken)
+    public async Task<CreateBasketResult> Handle(CreateBasketCommand command, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var shoppingCart = CreateNewBasket(command.ShoppingCart);
+
+        dbContext.ShoppingCarts.Add(shoppingCart);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return new CreateBasketResult(shoppingCart.Id);
+    }
+
+    private ShoppingCart CreateNewBasket(ShoppingCartDto shoppingCartDto)
+    {
+        var newBasket = ShoppingCart.Create(
+            Guid.NewGuid(),
+            shoppingCartDto.UserName);
+
+        shoppingCartDto.Items.ForEach(item =>
+        {
+            newBasket.AddItem(
+                item.ProductId,
+                item.Quantity,
+                item.Color,
+                item.Price,
+                item.ProductName);
+        });
+
+        return newBasket;
     }
 }

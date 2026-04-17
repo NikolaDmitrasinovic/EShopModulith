@@ -6,4 +6,4 @@ public record ShoppingCartItemDto(
     int Quantity,
     string Color,
     decimal Price,
-    string ProdcutName);
+    string ProductName);
