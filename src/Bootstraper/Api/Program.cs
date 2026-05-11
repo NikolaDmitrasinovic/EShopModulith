@@ -12,13 +12,8 @@ var basketAssembly = typeof(BasketModule).Assembly;
 builder.Services
     .AddCarterWithAsseblies(catalogAssembly, basketAssembly);
 
-builder.Services.AddMediatR(config =>
-{
-    config.RegisterServicesFromAssemblies(catalogAssembly, basketAssembly);
-    config.AddOpenBehavior(typeof(ValidationBehaviour<,>));
-    config.AddOpenBehavior(typeof(LoggingBehaviour<,>));
-});
-builder.Services.AddValidatorsFromAssemblies([catalogAssembly, basketAssembly]);
+builder.Services
+    .AddMediatRWithAssemblies(catalogAssembly, basketAssembly);
 
 //module services: catalog, basket, ordering
 builder.Services
