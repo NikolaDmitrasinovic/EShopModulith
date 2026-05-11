@@ -1,6 +1,6 @@
 namespace Basket.Basket.Features.AdItemToBasket;
 
-public record AddItemToBasketRequest(string UserName, ShoppingCartItemDto ShoppingCart);
+public record AddItemToBasketRequest(string UserName, ShoppingCartItemDto ShoppingCartItem);
 public record AddItemToBasketResponse(Guid Id);
 
 public class AddItemToBasketEndpoint : ICarterModule
@@ -10,7 +10,7 @@ public class AddItemToBasketEndpoint : ICarterModule
         app.MapPost("/basket/{userName}/items",
                 async ([FromRoute] string userName, [FromBody] AddItemToBasketRequest request, ISender sender) =>
                 {
-                    var command = new AddItemIntoBasketCommand(userName, request.ShoppingCart);
+                    var command = new AddItemIntoBasketCommand(userName, request.ShoppingCartItem);
 
                     var result = await sender.Send(command);
 
