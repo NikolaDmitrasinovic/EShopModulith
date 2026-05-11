@@ -1,14 +1,14 @@
 ﻿namespace Basket.Basket.Features.GetBasket;
 
-public record GetBasketRequest(string UserName)
-    : IQuery<GetBasketResponse>;
+public record GetBasketQuery(string UserName)
+    : IQuery<GetBasketResult>;
 
-public record GetBasketResponse(ShoppingCartDto ShoppingCart);
+public record GetBasketResult(ShoppingCartDto ShoppingCart);
 
 internal class GetBasketHandler(BasketDbContext dbContext)
-    : IQueryHandler<GetBasketRequest, GetBasketResponse>
+    : IQueryHandler<GetBasketQuery, GetBasketResult>
 {
-    public async Task<GetBasketResponse> Handle(GetBasketRequest query, CancellationToken cancellationToken)
+    public async Task<GetBasketResult> Handle(GetBasketQuery query, CancellationToken cancellationToken)
     {
         var basket = await dbContext.ShoppingCarts
             .AsNoTracking()
@@ -22,6 +22,6 @@ internal class GetBasketHandler(BasketDbContext dbContext)
 
         var basketDto = basket.Adapt<ShoppingCartDto>();
 
-        return new GetBasketResponse(basketDto);
+        return new GetBasketResult(basketDto);
     }
 }
