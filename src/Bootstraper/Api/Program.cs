@@ -5,7 +5,9 @@ builder.Host.UseSerilog((context, config) =>
 
 // Add services to the container.
 builder.Services
-    .AddCarterWithAsseblies(typeof(CatalogModule).Assembly);
+    .AddCarterWithAsseblies(
+        typeof(CatalogModule).Assembly,
+        typeof(BasketModule).Assembly);
 
 builder.Services
     .AddCatalogModule(builder.Configuration)
