@@ -4,11 +4,23 @@ builder.Host.UseSerilog((context, config) =>
     config.ReadFrom.Configuration(context.Configuration));
 
 // Add services to the container.
-builder.Services
-    .AddCarterWithAsseblies(
-        typeof(CatalogModule).Assembly,
-        typeof(BasketModule).Assembly);
 
+//common services: carter, mediatr, fluentvalidation
+var catalogAssembly = typeof(CatalogModule).Assembly;
+var basketAssembly = typeof(BasketModule).Assembly;
+
+builder.Services
+    .AddCarterWithAsseblies(catalogAssembly, basketAssembly);
+
+builder.Services.AddMediatR(config =>
+{
+    config.RegisterServicesFromAssemblies(catalogAssembly, basketAssembly);
+    config.AddOpenBehavior(typeof(ValidationBehaviour<,>));
+    config.AddOpenBehavior(typeof(LoggingBehaviour<,>));
+});
+builder.Services.AddValidatorsFromAssemblies([catalogAssembly, basketAssembly]);
+
+//module services: catalog, basket, ordering
 builder.Services
     .AddCatalogModule(builder.Configuration)
     .AddBasketModule(builder.Configuration)
